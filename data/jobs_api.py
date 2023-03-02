@@ -29,7 +29,7 @@ def get_one_job(job_id):
 
 
 @blueprint.route('/api/jobs', methods=['POST'])
-def create_news():
+def create_job():
     if not request.json:
         return jsonify({'error': 'Empty request'})
     elif not all(key in request.json for key in
@@ -38,6 +38,8 @@ def create_news():
         return jsonify({'error': 'Bad request'})
     db_sess = db_session.create_session()
     id_ = db_sess.query(User).filter(User.email == request.json['team_leader_email']).first()
+    if not id_:
+        return jsonify({'error': 'Bad request'})
     job = Jobs()
     job.job = request.json['title']
     job.team_leader = id_
