@@ -1,13 +1,13 @@
 import datetime
 
-from flask import Flask, render_template, redirect, request, abort
+from flask import Flask, render_template, redirect, request, abort, make_response, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import EmailField, PasswordField, SubmitField, BooleanField, StringField, IntegerField, \
     DateTimeField, TextAreaField, SelectField, SelectMultipleField
 from wtforms.validators import DataRequired
 
-from data import db_session
+from data import db_session, jobs_api
 from data.departments import Department
 from data.jobs import Jobs
 from data.news import News
@@ -415,6 +415,12 @@ def list_departs():
     return render_template('departments.html', departs=res)
 
 
+@app.errorhandler(404)
+def not_found(_):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 if __name__ == '__main__':
     db_session.global_init('db/blogs.db')
+    app.register_blueprint(jobs_api.blueprint)
     app.run(port=8080, host='127.0.0.1')
