@@ -37,12 +37,17 @@ def create_job():
                   'start_date', 'end_date', 'is_finished']):
         return jsonify({'error': 'Bad request'})
     db_sess = db_session.create_session()
+    if 'id' in request.json:
+        id_ = db_sess.query(Jobs).filter(Jobs.id == request.json['id']).first()
+        if id_:
+            return jsonify({'error': 'Id already exists'})
     id_ = db_sess.query(User).filter(User.email == request.json['team_leader_email']).first()
     if not id_:
         return jsonify({'error': 'Bad request'})
     job = Jobs()
     job.job = request.json['title']
-    job.team_leader = id_
+    job.team_leader = id_.id
+    job.id = request.json['id']
     job.work_size = request.json['work_size']
     job.collaborators = request.json['collaborators']
     job.start_date = request.json['start_date']
