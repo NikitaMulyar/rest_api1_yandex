@@ -1,4 +1,4 @@
-from requests import get, post
+from requests import get, post, delete
 
 print(get('http://127.0.0.1:8080/api/jobs').json())
 print(get('http://127.0.0.1:8080/api/jobs/2').json())
@@ -24,3 +24,6 @@ print(post('http://127.0.0.1:8080/api/jobs',
                   "start_date": None, "end_date": None, "is_finished": True}).json())
 # Нет заголовка - ошибка
 print(get('http://127.0.0.1:8080/api/jobs').json())
+print(delete('http://127.0.0.1:8080/api/jobs/3').json())
+print(get('http://127.0.0.1:8080/api/jobs').json())
+
