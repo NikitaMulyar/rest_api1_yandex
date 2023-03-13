@@ -7,7 +7,7 @@ from wtforms import EmailField, PasswordField, SubmitField, BooleanField, String
     DateTimeField, TextAreaField, SelectField, SelectMultipleField
 from wtforms.validators import DataRequired
 
-from data import db_session, jobs_api
+from data import db_session, jobs_api, users_api
 from data.departments import Department
 from data.jobs import Jobs
 from data.news import News
@@ -32,6 +32,7 @@ class RegisterForm(FlaskForm):
     pos = StringField('Position')
     spec = StringField('Speciality')
     adrs = StringField("Address")
+    city = StringField("Hometown", validators=[DataRequired()])
     submit = SubmitField('Register')
 
 
@@ -146,7 +147,8 @@ def reqister():
             age=form.age.data,
             position=form.pos.data,
             address=form.adrs.data,
-            speciality=form.spec.data
+            speciality=form.spec.data,
+            city=form.city.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
@@ -423,4 +425,5 @@ def not_found(_):
 if __name__ == '__main__':
     db_session.global_init('db/blogs.db')
     app.register_blueprint(jobs_api.blueprint)
+    app.register_blueprint(users_api.blueprint)
     app.run(port=8080, host='127.0.0.1')

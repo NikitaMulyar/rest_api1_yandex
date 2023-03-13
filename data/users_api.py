@@ -40,6 +40,8 @@ def create_user():
         id_ = db_sess.query(User).filter(User.id == request.json['id']).first()
         if id_:
             return jsonify({'error': 'Id already exists'})
+    if db_sess.query(User).filter(User.email == request.json['email']).first():
+        return jsonify({'error': 'This email was already used.'})
     user = User()
     user.email = request.json['email']
     user.hashed_password = generate_password_hash(request.json['password'])
