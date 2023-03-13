@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="nost">
+    <h2 class="nost">Nostalgy</h2>
+    <h3 class="nost">{{ data["name"] }} {{ data["surname"] }}</h3>
+    <h6 class="nost">Hometown: {{ data["city_from"] }}</h6>
+    <img class="nost" src="/static/img/map.png"/>
+</div>
+{% endblock %}

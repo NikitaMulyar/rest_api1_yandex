@@ -15,6 +15,11 @@ h3{
   margin: 0 auto;
 }
 
+.nost{
+display: table;
+  margin: 0 auto;
+  }
+
 #temp{
 margin-left: 10%;
 }

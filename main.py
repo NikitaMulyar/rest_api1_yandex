@@ -1,5 +1,5 @@
 import datetime
-
+from requests import get
 from flask import Flask, render_template, redirect, request, abort, make_response, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -420,6 +420,24 @@ def list_departs():
 @app.errorhandler(404)
 def not_found(_):
     return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.route('/users_show/<int:user_id>')
+def user_show(user_id):
+    info = get(f'http://127.0.0.1:8080/api/users/{user_id}').json()['user']
+    res = get(f'https://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={info["city_from"]}&format=json')
+    pos = ",".join(res.json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'].split())
+    map_params = {
+        "ll": pos,
+        "l": 'sat',
+        "z": '14'
+    }
+    map_api_server = "http://static-maps.yandex.ru/1.x/"
+    response = get(map_api_server, params=map_params)
+    map_file = f"static/img/map.png"
+    with open(map_file, mode="wb") as file:
+        file.write(response.content)
+    return render_template('nostalgy.html', data=info)
 
 
 if __name__ == '__main__':
