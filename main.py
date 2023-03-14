@@ -15,6 +15,7 @@ from data.users import User
 from data.category import Category
 from flask_restful import abort, Api
 from data.users_resource import UsersResource, UsersListResource
+from data.news_resource import NewsResource, NewsListResource
 
 
 class LoginForm(FlaskForm):
@@ -449,6 +450,10 @@ if __name__ == '__main__':
     db_session.global_init('db/blogs.db')
     app.register_blueprint(jobs_api.blueprint)
     app.register_blueprint(users_api.blueprint)
+    # для списка объектов
+    api.add_resource(NewsListResource, '/api/v2/news')
+    # для одного объекта
+    api.add_resource(NewsResource, '/api/v2/news/<int:news_id>')
     # для списка объектов
     api.add_resource(UsersListResource, '/api/v2/users')
     # для одного объекта
