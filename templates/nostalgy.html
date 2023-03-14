@@ -2,9 +2,16 @@
 
 {% block content %}
 <div class="nost">
+    {% if not flag %}
+        <h2 class="nost">Nostalgy</h2>
+        <h3 class="nost">{{ data["name"] }} {{ data["surname"] }}</h3>
+        <h6 class="nost">Hometown: {{ data["city_from"] }}</h6>
+        <img class="nost" src="/static/img/map.png"/>
+    {% else %}
     <h2 class="nost">Nostalgy</h2>
-    <h3 class="nost">{{ data["name"] }} {{ data["surname"] }}</h3>
-    <h6 class="nost">Hometown: {{ data["city_from"] }}</h6>
-    <img class="nost" src="/static/img/map.png"/>
+        <h3 class="nost">NO DATA</h3>
+        <h6 class="nost">Hometown: NO DATA</h6>
+        <img class="nost" src="/static/img/none.png" alt="NO DATA"/>
+    {% endif %}
 </div>
 {% endblock %}
