@@ -148,7 +148,7 @@ def reqister():
             position=form.pos.data,
             address=form.adrs.data,
             speciality=form.spec.data,
-            city=form.city.data
+            city_from=form.city.data
         )
         user.set_password(form.password.data)
         db_sess.add(user)
