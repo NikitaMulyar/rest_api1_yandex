@@ -13,6 +13,8 @@ from data.jobs import Jobs
 from data.news import News
 from data.users import User
 from data.category import Category
+from flask_restful import abort, Api
+from data.users_resource import UsersResource, UsersListResource
 
 
 class LoginForm(FlaskForm):
@@ -66,6 +68,7 @@ class DepartmentForm(FlaskForm):
 
 
 app = Flask(__name__)
+api = Api(app)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -446,4 +449,8 @@ if __name__ == '__main__':
     db_session.global_init('db/blogs.db')
     app.register_blueprint(jobs_api.blueprint)
     app.register_blueprint(users_api.blueprint)
+    # для списка объектов
+    api.add_resource(UsersListResource, '/api/v2/users')
+    # для одного объекта
+    api.add_resource(UsersResource, '/api/v2/users/<int:user_id>')
     app.run(port=8080, host='127.0.0.1')
