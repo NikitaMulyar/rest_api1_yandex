@@ -15,7 +15,9 @@
     <h1>Миссия Колонизация Марса
         <small class="text-muted">Mars One</small>
     </h1>
-<a href="/">Главная</a> | <a href="/jobs">Список миссий</a> | <a href="/departments">Список департаментов</a> | <a href="/users_show/1">Ностальгия</a><br/>
+{% set path_ = "/users_show/" ~ current_user.id|string %}
+{% set txt = path_ if current_user.id else "/" %}
+<a href="/">Главная</a> | <a href="/jobs">Список миссий</a> | <a href="/departments">Список департаментов</a> | <a href={{ txt }}>Ностальгия</a><br/>
 <a>
 {% if current_user.is_authenticated %}
     <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>

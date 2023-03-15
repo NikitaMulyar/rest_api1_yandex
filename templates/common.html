@@ -10,7 +10,7 @@
         <div class="post">
             <h3 class="news_title">{{ new.title }}</h3>{% if new.is_private %}&emsp;<p class="private_flag">Видите только вы</p>{% endif %}
             <p>{{ new.content }}<br/>
-            Автор: {{ new.user.name }}, Дата написания: {{ new.created_date }}</p>
+            Автор: {{ new.user.name if new.user.name else "User doesn't exist" }}, Дата написания: {{ new.created_date }}</p>
             {% if current_user.is_authenticated and current_user == new.user or current_user.id == 1 %}
                 <div class="btns">
                     <a href="/news/{{ new.id }}" class="btn btn-warning">

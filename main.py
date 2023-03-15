@@ -123,11 +123,16 @@ def list_jobs():
     for job in res:
         title = job.job
         time = f'{round((job.end_date - job.start_date).total_seconds() / 3600)} hours'
-        team_leader = job.user.name + ' ' + job.user.surname
+        user_id = -1
+        if job.user is None:
+            team_leader = 'User doesn\'t exist'
+        else:
+            team_leader = job.user.name + ' ' + job.user.surname
+            user_id = job.user.id
         collab = job.collaborators
         f = job.is_finished
         lvl = job.categories[-1].level if len(job.categories) else None
-        data.append([title, team_leader, time, collab, f, job.user.id, job.id, lvl])
+        data.append([title, team_leader, time, collab, f, user_id, job.id, lvl])
     return render_template('jobs.html', jobs=data)
 
 
