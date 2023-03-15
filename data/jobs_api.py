@@ -3,7 +3,7 @@ from flask import request, jsonify
 from . import db_session
 from .jobs import Jobs
 from .users import User
-
+from .category import Category
 
 blueprint = flask.Blueprint('jobs_api', __name__, template_folder='templates')
 
@@ -47,13 +47,18 @@ def create_job():
     job = Jobs()
     job.job = request.json['title']
     job.team_leader = id_.id
-    job.id = request.json['id']
+    if 'id' in request.json:
+        job.id = request.json['id']
     job.work_size = request.json['work_size']
     job.collaborators = request.json['collaborators']
     job.start_date = request.json['start_date']
     job.end_date = request.json['end_date']
     job.is_finished = request.json['is_finished']
-    job.hazard_level = request.json['hazard_level']
+
+    categ = Category()
+    categ.level = request.json['hazard_level']
+    job.categories.append(categ)
+
     db_sess.add(job)
     db_sess.commit()
     return jsonify({'success': 'OK'})
@@ -93,6 +98,10 @@ def edit_job(job_id):
     job.start_date = request.json['start_date']
     job.end_date = request.json['end_date']
     job.is_finished = request.json['is_finished']
-    job.hazard_level = request.json['hazard_level']
+
+    categ = Category()
+    categ.level = request.json['hazard_level']
+    job.categories.append(categ)
+
     db_sess.commit()
     return jsonify({'success': 'OK'})

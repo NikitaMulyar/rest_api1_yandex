@@ -10,7 +10,7 @@ def abort_if_user_not_found(user_id):
     session = db_session.create_session()
     user = session.query(User).get(user_id)
     if not user:
-        abort(404, message=f"User {user_id} not found")
+        abort(404, message=f"User {user_id} not found.")
     return session
 
 
@@ -30,7 +30,7 @@ class UsersResource(Resource):
 
     def put(self, user_id):
         return jsonify({'message': 'No editing function in RESTFUL-API. (Дело в том, что \
-        спецификация HTML позволяет создавать формы, отправляющие только GET- или POST-запросы.)'})
+спецификация HTML позволяет создавать формы, отправляющие только GET- или POST-запросы.)'})
 
 
 class UsersListResource(Resource):
